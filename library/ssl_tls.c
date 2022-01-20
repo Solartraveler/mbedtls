@@ -541,10 +541,12 @@ static int tls_prf_generic( mbedtls_md_type_t md_type,
 exit:
     mbedtls_md_free( &md_ctx );
 
-    mbedtls_platform_zeroize( tmp, tmp_len );
     mbedtls_platform_zeroize( h_i, sizeof( h_i ) );
-
-    mbedtls_free( tmp );
+    if( tmp )
+    {
+        mbedtls_platform_zeroize( tmp, tmp_len );
+        mbedtls_free( tmp );
+    }
 
     return( ret );
 }
